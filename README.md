@@ -1,5 +1,4 @@
-*This project is incomplete and undergoing major change. It is currently unstabled and thus not meant for production use.*
-
+*This project is incomplete and undergoing major change. It is currently unstable and thus not meant for production use.*
 
 # Type Mapper
 
