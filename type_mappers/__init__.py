@@ -4,17 +4,72 @@ The spec defines a generic mapper for types to other types,
 which can be used for validation, code generation and more.
 """
 
+from decimal import Decimal
+
 from datetime import date
 from datetime import datetime
 
 import sqlalchemy
 import wtforms
 
+try:
+    # Py3 only.
+    from enum import Enum
+except ImportError:
+    Enum = None
+
+try:
+    # Py3 uses unicode for str.
+    unicode
+except NameError:
+    unicode = str
+
 vanilla = {
+    # Numbers
+    'int': int,
+    'decimal': Decimal,
+    'float': float,
+    'number': int,
+    'num': int,
+    'int32': int,
+    'int64': int,
+    'uint32': int,
+    'uint64': int,
+    'double': float,
+    'long': float,
+
+    # Strings
+    'str': str,
+    'string': str,
+    'unicode': unicode,
+
+    # Booleans
+    'true': bool,
+    'false': bool,
+    'bool': bool,
+
     # Dates
     'time': datetime,
     'datetime': datetime,
     'date': date,
+
+    # Binary
+    'file': bytes,
+    'blob': bytes,
+    'binary': bytes,
+    'bytes': bytes,
+
+    # Password
+    'password': str,
+
+    # Multi-choice
+    'enum': Enum,
+
+    # Configs/serialized formats - TODO: how best to map these.
+    'pickle': None,
+    'pkl': None,
+    'json': None,
+    'yaml': None,
 }
 sqlalchemy_mapper = {
     # Numbers
@@ -109,9 +164,10 @@ wtform_mapper = {
     'yaml': wtforms.TextAreaField,
 }
 all_maps = {
+    'vanilla': vanilla,
     'wtforms': wtform_mapper,
     'sqlalchemy': sqlalchemy_mapper,
-    'vanilla': vanilla,
+    'factoryboy': factoryboy_mapper,
 }
 
 
@@ -119,15 +175,10 @@ def get_context_field(fieldtype, context):
     """Get the right field for a field type and context label."""
     fieldtype = fieldtype.lower()
     try:
-        return all_maps[context][fieldtype]
+        typ = all_maps[context][fieldtype]
+        if typ is None:
+            raise NotImplementedError(
+                'Type: "{}" for "{}" has '
+                'not been implemented'.format(fieldtype, context))
     except KeyError:
         return None
-
-
-# TODO other ideas for field types:
-#
-# HTML5:
-#   color
-#   email
-# GEOJSON
-#   geo
