@@ -119,6 +119,9 @@ sqlalchemy_mapper = {
     'binary': sqlalchemy.Binary,
     'bytes': sqlalchemy.Binary,
 
+    # Password
+    'password': sqlalchemy.String,
+
     # Multi-choice
     'enum': sqlalchemy.Enum,
 
@@ -126,6 +129,7 @@ sqlalchemy_mapper = {
     'pickle': sqlalchemy.PickleType,
     'pkl': sqlalchemy.PickleType,
     'json': sqlalchemy.types.JSON,
+    'yaml': None,
 
     # Data structures - list
     'list': sqlalchemy.types.ARRAY,
@@ -139,6 +143,63 @@ sqlalchemy_mapper = {
     'tuple': None,
 }
 factoryboy_mapper = {
+    # Numbers
+    'int': None,
+    'integer': None,
+    'decimal': None,
+    'float': None,
+    'number': None,
+    'num': None,
+    'int32': None,
+    'int64': None,
+    'uint32': None,
+    'uint64': None,
+    'double': None,
+    'long': None,
+
+    # Strings
+    'str': None,
+    'string': None,
+    'unicode': None,
+
+    # Booleans
+    'true': None,
+    'false': None,
+    'bool': None,
+
+    # Dates
+    'time': None,
+    'datetime': None,
+    'date': None,
+
+    # Binary
+    'file': None,
+    'blob': None,
+    'binary': None,
+    'bytes': None,
+
+    # Password
+    'password': str,
+
+    # Multi-choice
+    'enum': None,
+
+    # Configs/serialized formats
+    'pickle': None,
+    'pkl': None,
+    'json': None,
+    'yaml': None,
+
+    # Data structures - list
+    'list': None,
+    'array': None,
+
+    # Data structures - dictionary
+    'dict': None,
+    'dictionary': None,
+
+    # Data structures - tuple
+    'tuple': None,
 }
 wtform_mapper = {
     # Numbers
