@@ -1,3 +1,6 @@
+*This project is incomplete and undergoing major change. It is currently unstabled and thus not meant for production use.*
+
+
 # Type Mapper
 
 A utility to map primitive types (int, str, bool, etc) to the equivalent in various python libraries.
