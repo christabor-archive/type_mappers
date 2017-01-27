@@ -189,8 +189,8 @@ wtform_mapper = {
     'yaml': wtforms.TextAreaField,
 
     # Data structures - list
-    'list': None,
-    'array': None,
+    'list': wtforms.SelectMultipleField,
+    'array': wtforms.SelectMultipleField,
 
     # Data structures - dictionary
     'dict': None,
