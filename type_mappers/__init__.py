@@ -71,6 +71,17 @@ vanilla = {
     'pkl': None,
     'json': None,
     'yaml': None,
+
+    # Data structures - list
+    'list': list,
+    'array': list,
+
+    # Data structures - dictionary
+    'dict': dict,
+    'dictionary': dict,
+
+    # Data structures - tuple
+    'tuple': tuple,
 }
 sqlalchemy_mapper = {
     # Numbers
@@ -108,13 +119,24 @@ sqlalchemy_mapper = {
     'binary': sqlalchemy.Binary,
     'bytes': sqlalchemy.Binary,
 
+    # Multi-choice
+    'enum': sqlalchemy.Enum,
+
     # Configs/serialized formats
     'pickle': sqlalchemy.PickleType,
     'pkl': sqlalchemy.PickleType,
     'json': sqlalchemy.types.JSON,
 
-    # Multi-choice
-    'enum': sqlalchemy.Enum,
+    # Data structures - list
+    'list': sqlalchemy.types.ARRAY,
+    'array': sqlalchemy.types.ARRAY,
+
+    # Data structures - dictionary
+    'dict': None,
+    'dictionary': None,
+
+    # Data structures - tuple
+    'tuple': None,
 }
 factoryboy_mapper = {
 }
@@ -165,6 +187,17 @@ wtform_mapper = {
     'pkl': wtforms.TextAreaField,
     'json': wtforms.TextAreaField,
     'yaml': wtforms.TextAreaField,
+
+    # Data structures - list
+    'list': None,
+    'array': None,
+
+    # Data structures - dictionary
+    'dict': None,
+    'dictionary': None,
+
+    # Data structures - tuple
+    'tuple': None,
 }
 all_maps = {
     'vanilla': vanilla,
@@ -174,15 +207,33 @@ all_maps = {
 }
 
 
-def get_context_field(fieldtype, context):
-    """Get the right field for a field type and context label."""
+def get_context_field(fieldtype, context, fallback=None):
+    """Given a context and a field, return the matching type.
+
+    Args:
+        fieldtype: The field type.
+        context: The mapping context
+        fallback: The name of the fallback string to use (default: {None})
+
+    Returns:
+        The field.
+        None or callable, depending on the outcome.
+
+    Raises:
+        NotImplementedError: If no type exists
+        NotImplementedError: If no specified fallback exists
+    """
     fieldtype = fieldtype.lower()
+    no_type_error = ('Type: "{}" for "{}" '
+                     'has not been implemented'.format(fieldtype, context))
     try:
         typ = all_maps[context][fieldtype]
         if typ is None:
-            raise NotImplementedError(
-                'Type: "{}" for "{}" has '
-                'not been implemented'.format(fieldtype, context))
+            if fallback is None:
+                raise NotImplementedError(no_type_error)
+            typ = all_maps[context][fallback]
+            if typ is None:
+                raise NotImplementedError(no_type_error)
         return typ
     except KeyError:
         return None
