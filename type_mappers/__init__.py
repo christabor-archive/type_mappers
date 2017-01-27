@@ -27,6 +27,7 @@ except NameError:
 vanilla = {
     # Numbers
     'int': int,
+    'integer': int,
     'decimal': Decimal,
     'float': float,
     'number': int,
@@ -74,6 +75,7 @@ vanilla = {
 sqlalchemy_mapper = {
     # Numbers
     'int': sqlalchemy.Integer,
+    'integer': sqlalchemy.Integer,
     'decimal': sqlalchemy.Float,
     'float': sqlalchemy.Float,
     'number': sqlalchemy.Integer,
@@ -119,6 +121,7 @@ factoryboy_mapper = {
 wtform_mapper = {
     # Numbers
     'int': wtforms.IntegerField,
+    'integer': wtforms.IntegerField,
     'decimal': wtforms.DecimalField,
     'float': wtforms.DecimalField,  # Not using floatfield atm
     'number': wtforms.IntegerField,
