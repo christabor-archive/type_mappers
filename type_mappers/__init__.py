@@ -180,5 +180,6 @@ def get_context_field(fieldtype, context):
             raise NotImplementedError(
                 'Type: "{}" for "{}" has '
                 'not been implemented'.format(fieldtype, context))
+        return typ
     except KeyError:
         return None
