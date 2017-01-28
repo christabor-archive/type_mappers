@@ -21,3 +21,12 @@ def test_get_not_implemented_fields():
             if mapping is None:
                 with pytest.raises(NotImplementedError):
                     type_mappers.get_context_field(fieldname, ctx) == mapping
+
+
+def test_get_not_implemented_fields_with_str_fallback():
+    """Get invalid field w/ fallback."""
+    for ctx, mappings in type_mappers.all_maps.items():
+        for fieldname, mapping in mappings.items():
+            if mapping is None:
+                assert type_mappers.get_context_field(
+                    fieldname, ctx, fallback='str')
