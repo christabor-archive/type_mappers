@@ -9,6 +9,7 @@ from decimal import Decimal
 from datetime import date
 from datetime import datetime
 
+import factory.fuzzy
 import sqlalchemy
 import wtforms
 
@@ -144,23 +145,23 @@ sqlalchemy_mapper = {
 }
 factoryboy_mapper = {
     # Numbers
-    'int': None,
-    'integer': None,
-    'decimal': None,
-    'float': None,
-    'number': None,
-    'num': None,
-    'int32': None,
-    'int64': None,
-    'uint32': None,
-    'uint64': None,
-    'double': None,
-    'long': None,
+    'int': factory.fuzzy.FuzzyInteger,
+    'integer': factory.fuzzy.FuzzyInteger,
+    'decimal': factory.fuzzy.FuzzyDecimal,
+    'float': factory.fuzzy.FuzzyFloat,
+    'number': factory.fuzzy.FuzzyInteger,
+    'num': factory.fuzzy.FuzzyInteger,
+    'int32': factory.fuzzy.FuzzyInteger,
+    'int64': factory.fuzzy.FuzzyInteger,
+    'uint32': factory.fuzzy.FuzzyInteger,
+    'uint64': factory.fuzzy.FuzzyInteger,
+    'double': factory.fuzzy.FuzzyFloat,
+    'long': factory.fuzzy.FuzzyFloat,
 
     # Strings
-    'str': None,
-    'string': None,
-    'unicode': None,
+    'str': factory.fuzzy.FuzzyText,
+    'string': factory.fuzzy.FuzzyText,
+    'unicode': factory.fuzzy.FuzzyText,
 
     # Booleans
     'true': None,
@@ -168,9 +169,9 @@ factoryboy_mapper = {
     'bool': None,
 
     # Dates
-    'time': None,
-    'datetime': None,
-    'date': None,
+    'time': factory.fuzzy.FuzzyDateTime,
+    'datetime': factory.fuzzy.FuzzyDateTime,
+    'date': factory.fuzzy.FuzzyDate,
 
     # Binary
     'file': None,
@@ -182,7 +183,7 @@ factoryboy_mapper = {
     'password': str,
 
     # Multi-choice
-    'enum': None,
+    'enum': factory.fuzzy.FuzzyChoice,
 
     # Configs/serialized formats
     'pickle': None,
@@ -191,8 +192,8 @@ factoryboy_mapper = {
     'yaml': None,
 
     # Data structures - list
-    'list': None,
-    'array': None,
+    'list': factory.fuzzy.FuzzyChoice,
+    'array': factory.fuzzy.FuzzyChoice,
 
     # Data structures - dictionary
     'dict': None,
