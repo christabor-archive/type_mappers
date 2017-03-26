@@ -63,7 +63,3 @@ Want to see new ones? File an issue!
 ## Tests
 
 Tests mainly ensure that there is parity across each context. To run, assuming you are in a virtualenv and have run `pip install -e .`, then run `pytest tests`.
-
-## Todos
-
-Probably don't need to install or load every library, as these can be pretty large. This somehow needs to determine which to install and load.

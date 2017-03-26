@@ -2,6 +2,10 @@
 
 The spec defines a generic mapper for types to other types,
 which can be used for validation, code generation and more.
+
+NOTE: The below imports are always wrapped in a try/catch block
+to ensure that users can optionally use/install one or more without having
+to install them all.
 """
 
 from decimal import Decimal
@@ -9,9 +13,6 @@ from decimal import Decimal
 from datetime import date
 from datetime import datetime
 
-import factory.fuzzy
-import sqlalchemy
-import wtforms
 
 try:
     # Py3 only.
@@ -84,183 +85,202 @@ vanilla = {
     # Data structures - tuple
     'tuple': tuple,
 }
-sqlalchemy_mapper = {
-    # Numbers
-    'int': sqlalchemy.Integer,
-    'integer': sqlalchemy.Integer,
-    'decimal': sqlalchemy.Float,
-    'float': sqlalchemy.Float,
-    'number': sqlalchemy.Integer,
-    'num': sqlalchemy.Integer,
-    'int32': sqlalchemy.SmallInteger,
-    'int64': sqlalchemy.BigInteger,
-    'uint32': sqlalchemy.SmallInteger,
-    'uint64': sqlalchemy.BigInteger,
-    'double': sqlalchemy.Float,
-    'long': sqlalchemy.BigInteger,
 
-    # Strings
-    'str': sqlalchemy.String,
-    'string': sqlalchemy.String,
-    'unicode': sqlalchemy.Unicode,
+try:
+    import sqlalchemy
+    sqlalchemy_mapper = {
+        # Numbers
+        'int': sqlalchemy.Integer,
+        'integer': sqlalchemy.Integer,
+        'decimal': sqlalchemy.Float,
+        'float': sqlalchemy.Float,
+        'number': sqlalchemy.Integer,
+        'num': sqlalchemy.Integer,
+        'int32': sqlalchemy.SmallInteger,
+        'int64': sqlalchemy.BigInteger,
+        'uint32': sqlalchemy.SmallInteger,
+        'uint64': sqlalchemy.BigInteger,
+        'double': sqlalchemy.Float,
+        'long': sqlalchemy.BigInteger,
 
-    # Booleans
-    'true': sqlalchemy.Boolean,
-    'false': sqlalchemy.Boolean,
-    'bool': sqlalchemy.Boolean,
+        # Strings
+        'str': sqlalchemy.String,
+        'string': sqlalchemy.String,
+        'unicode': sqlalchemy.Unicode,
 
-    # Dates
-    'time': sqlalchemy.Time,
-    'datetime': sqlalchemy.DateTime,
-    'date': sqlalchemy.Date,
+        # Booleans
+        'true': sqlalchemy.Boolean,
+        'false': sqlalchemy.Boolean,
+        'bool': sqlalchemy.Boolean,
 
-    # Binary
-    'file': sqlalchemy.BLOB,
-    'blob': sqlalchemy.BLOB,
-    'binary': sqlalchemy.Binary,
-    'bytes': sqlalchemy.Binary,
+        # Dates
+        'time': sqlalchemy.Time,
+        'datetime': sqlalchemy.DateTime,
+        'date': sqlalchemy.Date,
 
-    # Password
-    'password': sqlalchemy.String,
+        # Binary
+        'file': sqlalchemy.BLOB,
+        'blob': sqlalchemy.BLOB,
+        'binary': sqlalchemy.Binary,
+        'bytes': sqlalchemy.Binary,
 
-    # Multi-choice
-    'enum': sqlalchemy.Enum,
+        # Password
+        'password': sqlalchemy.String,
 
-    # Configs/serialized formats
-    'pickle': sqlalchemy.PickleType,
-    'pkl': sqlalchemy.PickleType,
-    'json': sqlalchemy.types.JSON,
-    'yaml': None,
+        # Multi-choice
+        'enum': sqlalchemy.Enum,
 
-    # Data structures - list
-    'list': sqlalchemy.types.ARRAY,
-    'array': sqlalchemy.types.ARRAY,
+        # Configs/serialized formats
+        'pickle': sqlalchemy.PickleType,
+        'pkl': sqlalchemy.PickleType,
+        'json': sqlalchemy.types.JSON,
+        'yaml': None,
 
-    # Data structures - dictionary
-    'dict': None,
-    'dictionary': None,
+        # Data structures - list
+        'list': sqlalchemy.types.ARRAY,
+        'array': sqlalchemy.types.ARRAY,
 
-    # Data structures - tuple
-    'tuple': None,
-}
-factoryboy_mapper = {
-    # Numbers
-    'int': factory.fuzzy.FuzzyInteger,
-    'integer': factory.fuzzy.FuzzyInteger,
-    'decimal': factory.fuzzy.FuzzyDecimal,
-    'float': factory.fuzzy.FuzzyFloat,
-    'number': factory.fuzzy.FuzzyInteger,
-    'num': factory.fuzzy.FuzzyInteger,
-    'int32': factory.fuzzy.FuzzyInteger,
-    'int64': factory.fuzzy.FuzzyInteger,
-    'uint32': factory.fuzzy.FuzzyInteger,
-    'uint64': factory.fuzzy.FuzzyInteger,
-    'double': factory.fuzzy.FuzzyFloat,
-    'long': factory.fuzzy.FuzzyFloat,
+        # Data structures - dictionary
+        'dict': None,
+        'dictionary': None,
 
-    # Strings
-    'str': factory.fuzzy.FuzzyText,
-    'string': factory.fuzzy.FuzzyText,
-    'unicode': factory.fuzzy.FuzzyText,
+        # Data structures - tuple
+        'tuple': None,
+    }
+except ImportError:
+    sqlalchemy_mapper = {}
 
-    # Booleans
-    'true': None,
-    'false': None,
-    'bool': None,
 
-    # Dates
-    'time': factory.fuzzy.FuzzyDateTime,
-    'datetime': factory.fuzzy.FuzzyDateTime,
-    'date': factory.fuzzy.FuzzyDate,
+try:
+    import factory.fuzzy
+    factoryboy_mapper = {
+        # Numbers
+        'int': factory.fuzzy.FuzzyInteger,
+        'integer': factory.fuzzy.FuzzyInteger,
+        'decimal': factory.fuzzy.FuzzyDecimal,
+        'float': factory.fuzzy.FuzzyFloat,
+        'number': factory.fuzzy.FuzzyInteger,
+        'num': factory.fuzzy.FuzzyInteger,
+        'int32': factory.fuzzy.FuzzyInteger,
+        'int64': factory.fuzzy.FuzzyInteger,
+        'uint32': factory.fuzzy.FuzzyInteger,
+        'uint64': factory.fuzzy.FuzzyInteger,
+        'double': factory.fuzzy.FuzzyFloat,
+        'long': factory.fuzzy.FuzzyFloat,
 
-    # Binary
-    'file': None,
-    'blob': None,
-    'binary': None,
-    'bytes': None,
+        # Strings
+        'str': factory.fuzzy.FuzzyText,
+        'string': factory.fuzzy.FuzzyText,
+        'unicode': factory.fuzzy.FuzzyText,
 
-    # Password
-    'password': str,
+        # Booleans
+        'true': None,
+        'false': None,
+        'bool': None,
 
-    # Multi-choice
-    'enum': factory.fuzzy.FuzzyChoice,
+        # Dates
+        'time': factory.fuzzy.FuzzyDateTime,
+        'datetime': factory.fuzzy.FuzzyDateTime,
+        'date': factory.fuzzy.FuzzyDate,
 
-    # Configs/serialized formats
-    'pickle': None,
-    'pkl': None,
-    'json': None,
-    'yaml': None,
+        # Binary
+        'file': None,
+        'blob': None,
+        'binary': None,
+        'bytes': None,
 
-    # Data structures - list
-    'list': factory.fuzzy.FuzzyChoice,
-    'array': factory.fuzzy.FuzzyChoice,
+        # Password
+        'password': str,
 
-    # Data structures - dictionary
-    'dict': None,
-    'dictionary': None,
+        # Multi-choice
+        'enum': factory.fuzzy.FuzzyChoice,
 
-    # Data structures - tuple
-    'tuple': None,
-}
-wtform_mapper = {
-    # Numbers
-    'int': wtforms.IntegerField,
-    'integer': wtforms.IntegerField,
-    'decimal': wtforms.DecimalField,
-    'float': wtforms.DecimalField,  # Not using floatfield atm
-    'number': wtforms.IntegerField,
-    'num': wtforms.IntegerField,
-    'int32': wtforms.IntegerField,
-    'int64': wtforms.IntegerField,
-    'uint32': wtforms.IntegerField,
-    'uint64': wtforms.DecimalField,
-    'double': wtforms.IntegerField,
-    'long': wtforms.IntegerField,
+        # Configs/serialized formats
+        'pickle': None,
+        'pkl': None,
+        'json': None,
+        'yaml': None,
 
-    # Strings
-    'str': wtforms.TextField,
-    'string': wtforms.TextField,
-    'unicode': wtforms.TextField,
+        # Data structures - list
+        'list': factory.fuzzy.FuzzyChoice,
+        'array': factory.fuzzy.FuzzyChoice,
 
-    # Booleans
-    'true': wtforms.BooleanField,
-    'false': wtforms.BooleanField,
-    'bool': wtforms.BooleanField,
+        # Data structures - dictionary
+        'dict': None,
+        'dictionary': None,
 
-    # Dates
-    'time': wtforms.DateTimeField,
-    'datetime': wtforms.DateTimeField,
-    'date': wtforms.DateField,
+        # Data structures - tuple
+        'tuple': None,
+    }
+except ImportError:
+    factoryboy_mapper = {}
 
-    # Binary
-    'file': wtforms.FileField,
-    'blob': wtforms.FileField,
-    'binary': wtforms.FileField,
-    'bytes': wtforms.FileField,
 
-    # Password
-    'password': wtforms.PasswordField,
+try:
+    import wtforms
+    wtform_mapper = {
+        # Numbers
+        'int': wtforms.IntegerField,
+        'integer': wtforms.IntegerField,
+        'decimal': wtforms.DecimalField,
+        'float': wtforms.DecimalField,  # Not using floatfield atm
+        'number': wtforms.IntegerField,
+        'num': wtforms.IntegerField,
+        'int32': wtforms.IntegerField,
+        'int64': wtforms.IntegerField,
+        'uint32': wtforms.IntegerField,
+        'uint64': wtforms.DecimalField,
+        'double': wtforms.IntegerField,
+        'long': wtforms.IntegerField,
 
-    # Multi-choice
-    'enum': wtforms.SelectField,
+        # Strings
+        'str': wtforms.TextField,
+        'string': wtforms.TextField,
+        'unicode': wtforms.TextField,
 
-    # Configs/serialized formats
-    'pickle': wtforms.TextAreaField,
-    'pkl': wtforms.TextAreaField,
-    'json': wtforms.TextAreaField,
-    'yaml': wtforms.TextAreaField,
+        # Booleans
+        'true': wtforms.BooleanField,
+        'false': wtforms.BooleanField,
+        'bool': wtforms.BooleanField,
 
-    # Data structures - list
-    'list': wtforms.SelectMultipleField,
-    'array': wtforms.SelectMultipleField,
+        # Dates
+        'time': wtforms.DateTimeField,
+        'datetime': wtforms.DateTimeField,
+        'date': wtforms.DateField,
 
-    # Data structures - dictionary
-    'dict': None,
-    'dictionary': None,
+        # Binary
+        'file': wtforms.FileField,
+        'blob': wtforms.FileField,
+        'binary': wtforms.FileField,
+        'bytes': wtforms.FileField,
 
-    # Data structures - tuple
-    'tuple': None,
-}
+        # Password
+        'password': wtforms.PasswordField,
+
+        # Multi-choice
+        'enum': wtforms.SelectField,
+
+        # Configs/serialized formats
+        'pickle': wtforms.TextAreaField,
+        'pkl': wtforms.TextAreaField,
+        'json': wtforms.TextAreaField,
+        'yaml': wtforms.TextAreaField,
+
+        # Data structures - list
+        'list': wtforms.SelectMultipleField,
+        'array': wtforms.SelectMultipleField,
+
+        # Data structures - dictionary
+        'dict': None,
+        'dictionary': None,
+
+        # Data structures - tuple
+        'tuple': None,
+    }
+except ImportError:
+    wtform_mapper = {}
+
+
 all_maps = {
     'vanilla': vanilla,
     'wtforms': wtform_mapper,
