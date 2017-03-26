@@ -22,10 +22,7 @@ test_requirements = [
     'Werkzeug==0.11.10',
 ]
 requirements = [
-    'factory-boy',
     'faker',
-    'sqlalchemy',
-    'WTForms==2.1',
 ]
 
 setup(
@@ -45,6 +42,11 @@ setup(
     ],
     tests_require=test_requirements,
     install_requires=requirements,
+    extras_require={
+        'sqlalch': ['sqlalchemy'],
+        'factoryboy': ['factory-boy'],
+        'wtforms': ['WTForms'],
+    },
     package_dir={'type_mappers': 'type_mappers'},
     packages=['type_mappers'],
     zip_safe=False,
